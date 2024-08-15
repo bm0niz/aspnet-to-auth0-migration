@@ -45,14 +45,14 @@ def get_access_token():
 
 def users():
     access_token = get_access_token()
-    client = Jobs(DOMAIN, access_token)
-    users = []
+    client = Jobs(os.getenv('AUTH0_DOMAIN'), access_token)
+    user_list = []
 
     with open("data/users.csv", "r") as f:
         csvreader = csv.reader(f, delimiter=";")
         for i, row in enumerate(csvreader):
             if i == 0: continue
-            users.append({
+            user_list.append({
                 "username": row[0],
                 "email": row[1],
                 "custom_password_hash": {
@@ -64,12 +64,12 @@ def users():
                 }
             })
 
-    response = client.import_users(os.getenv('AUTH0_CONNECTION_ID'), json.dumps(users))
+    response = client.import_users(os.getenv('AUTH0_CONNECTION_ID'), json.dumps(user_list))
     print(response)
 
 def roles():
     access_token = get_access_token()
-    client = Roles(DOMAIN, access_token)
+    client = Roles(os.getenv('AUTH0_DOMAIN'), access_token)
 
     with open("data/roles.csv", "r") as f:
         csvreader = csv.reader(f, delimiter=";")
