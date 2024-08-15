@@ -1,0 +1,2 @@
+auth0-python==3.23.0
+python-dotenv==0.20.0
